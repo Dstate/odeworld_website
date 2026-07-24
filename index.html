@@ -1228,7 +1228,7 @@
                     <p class="traj-lang" data-traj="lang">&ldquo;put the black bowl in the bottom drawer of the cabinet&rdquo;</p>
                   </div>
                   <figure class="traj-panel traj-panel-pca">
-                    <video data-traj="pca" src="./figures/libero%20rollouts/case1/pca_field.mp4" muted playsinline preload="auto" aria-label="Latent trajectory in PCA space"></video>
+                    <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
                     <figcaption>latent trajectory (PCA)</figcaption>
                   </figure>
                 </div>
@@ -1239,7 +1239,7 @@
                 </div>
 
                 <figure class="traj-panel traj-panel-frame">
-                  <video data-traj="frame" src="./figures/libero%20rollouts/case1/video_rollout.mp4" muted playsinline preload="auto" aria-label="Predicted frame"></video>
+                  <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
                   <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
                 </figure>
               </div>
@@ -1301,7 +1301,7 @@
                     <p class="traj-lang" data-traj="lang">&ldquo;&rdquo;</p>
                   </div>
                   <figure class="traj-panel traj-panel-pca">
-                    <video data-traj="pca" muted playsinline preload="auto" aria-label="Latent trajectory in PCA space"></video>
+                    <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
                     <figcaption>latent trajectory (PCA)</figcaption>
                   </figure>
                 </div>
@@ -1312,7 +1312,7 @@
                 </div>
 
                 <figure class="traj-panel traj-panel-frame">
-                  <video data-traj="frame" muted playsinline preload="auto" aria-label="Predicted frame"></video>
+                  <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
                   <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
                 </figure>
               </div>
@@ -1971,10 +1971,12 @@
         var capture = document.createElement('video');
         capture.muted = true;
         capture.playsInline = true;
-        capture.preload = 'auto';
+        capture.preload = 'none';
         capture.setAttribute('aria-hidden', 'true');
         capture.style.cssText = 'position:fixed;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none';
         document.body.appendChild(capture);
+        if (video) video.preload = 'none';
+        if (pcaVideo) pcaVideo.preload = 'none';
         var captureCanvas = document.createElement('canvas');
         var captureCtx = captureCanvas.getContext('2d');
         var captureToken = 0;
@@ -1993,6 +1995,8 @@
         var playing = true;
         var onScreen = false;
         var scrubbing = false;
+        var mediaLoaded = false;
+        var pendingCaseIndex = null;
 
         function videoTimeForIndex(idx) {
           return (idx + 0.5) / VIDEO_FPS;
@@ -2326,12 +2330,39 @@
           });
         });
 
+        function selectCaseTab(idx) {
+          casebarEl.querySelectorAll('button[data-case]').forEach(function (b) {
+            var i = parseInt(b.dataset.case, 10);
+            var on = i === idx;
+            b.classList.toggle('active', on && !CASES[i].empty);
+            if (!CASES[i].empty) b.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+        }
+
+        function ensureMediaLoaded() {
+          if (mediaLoaded) return;
+          mediaLoaded = true;
+          var idx = pendingCaseIndex != null ? pendingCaseIndex : caseIndex;
+          pendingCaseIndex = null;
+          if (CASES[idx] && !CASES[idx].empty) {
+            loadCase(idx);
+          } else {
+            clearMedia();
+          }
+        }
+
         casebarEl.addEventListener('click', function (e) {
           var btn = e.target.closest('button[data-case]');
           if (!btn || btn.disabled) return;
           var idx = parseInt(btn.dataset.case, 10);
           if (idx === caseIndex || !CASES[idx] || CASES[idx].empty) return;
-          loadCase(idx);
+          caseIndex = idx;
+          selectCaseTab(idx);
+          if (mediaLoaded) {
+            loadCase(idx);
+          } else {
+            pendingCaseIndex = idx;
+          }
         });
 
         function frameFromEvent(ev) {
@@ -2361,21 +2392,21 @@
           else if (e.key === ' ') { setPlaying(!playing); e.preventDefault(); }
         });
 
+        // Only fetch videos once the viewer nears / enters the viewport.
         if ('IntersectionObserver' in window) {
           new IntersectionObserver(function (entries) {
-            entries.forEach(function (en) { onScreen = en.isIntersecting; });
-          }, { threshold: 0.05 }).observe(viewer);
+            entries.forEach(function (en) {
+              onScreen = en.isIntersecting;
+              if (onScreen) ensureMediaLoaded();
+            });
+          }, { threshold: 0.05, rootMargin: '200px 0px' }).observe(viewer);
         } else {
           onScreen = true;
+          ensureMediaLoaded();
         }
 
         buildTabs();
         setPlaying(true);
-        if (CASES[caseIndex] && !CASES[caseIndex].empty) {
-          loadCase(caseIndex);
-        } else {
-          clearMedia();
-        }
       }
 
       initTrajViewer(document.getElementById('liberoViewer'), {
