@@ -245,14 +245,15 @@
     }
 
     .hero-title-main {
-      margin: 14px auto 0;
-      max-width: 980px;
+      width: 100%;
+      margin: 14px 0 0;
+      max-width: none;
       font-family: var(--sans);
       font-weight: 900;
-      font-size: clamp(30px, 4.8vw, 54px);
-      line-height: 1.12;
+      font-size: clamp(30px, 4.8vw, 52px);
+      line-height: 1.18;
       letter-spacing: -0.025em;
-      text-wrap: balance;
+      text-align: center;
     }
 
     .hero-title-main .accent {
@@ -266,7 +267,8 @@
 
     .hero-title-main .line {
       display: block;
-      white-space: nowrap;
+      white-space: normal;
+      text-align: center;
     }
 
     .authors {
@@ -1161,11 +1163,7 @@
       }
 
       .hero-title-main {
-        font-size: clamp(30px, 10vw, 50px);
-      }
-
-      .hero-title-main .line {
-        white-space: normal;
+        font-size: clamp(28px, 7.5vw, 44px);
       }
 
       .ptflow-text-block {
@@ -1218,7 +1216,9 @@
             <sup>2</sup> Berkeley Artificial Intelligence Research (BAIR), University of California, Berkeley, CA, USA
           </p>
           <p class="authors-note">
-            * Equal contribution &nbsp;&nbsp; &#9993; Corresponding author
+            * Equal contribution, order determined by coin flip.
+            &nbsp;&nbsp; &#9993; Corresponding author.
+            &nbsp;&nbsp; &#8224; Work done during internship.
           </p>
         </div>
         <!-- <div class="hero-top-actions">
