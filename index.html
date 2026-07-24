@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>ODEWorld: Anonymous Project Page</title>
+  <title>ODEWorld: A Continuous Predictive Architecture via Physical-Time Flow</title>
 
   <script>
     // Set theme before first paint to avoid a flash of the wrong palette.
@@ -42,81 +41,101 @@
 
   <style>
     :root {
-      /* ─────────────────────────────────────────────────────────
-         Tokyo Night × Sakura — dark theme.
-         Canonical Tokyo Night navy canvas, violet primary for
-         headings/links, sakura pink as the warm accent for
-         ornaments and highlights. */
-      --bg-deep: #1a1b26;
-      --bg-surface: #1f2335;
-      --bg-card: #24283b;
-      --text-primary: #c0caf5;
-      --text-secondary: #a9b1d6;
-      --text-tertiary: #9aa5ce;
-      --text-dim: #565f89;
-      --rule: #3b4261;
-      --hairline: rgba(192, 202, 245, 0.08);
-      --hairline-strong: rgba(192, 202, 245, 0.14);
+      /* DeepMind Genie–inspired dark: near-black canvas, cool gray type.
+         Accents are high-contrast neutrals (white/ink), not Google blue. */
+      /* page darkest; button strip +1; card body +1.5 */
+      --bg-deep: #0a0a0b;
+      --bg-card: #18181c;
+      --bg-surface: #18181c;
+      --text-primary: #f1f3f4;
+      --text-secondary: #bdc1c6;
+      --text-tertiary: #9aa0a6;
+      --text-dim: #5f6368;
+      --rule: #2a2b30;
+      --hairline: rgba(241, 243, 244, 0.06);
+      --hairline-strong: rgba(241, 243, 244, 0.12);
 
-      --primary: #bb9af7;          /* Tokyo violet */
-      --primary-strong: #d3bdfc;   /* brighter violet for hover */
-      --accent: #f7768e;           /* sakura pink */
-      --accent-strong: #ff9eb5;
+      /* Soft brand / UI accents */
+      --brand-from: #c46cff;
+      --brand-to: #4ae0b8;
+      --btn: #8b7bb8;
+      --btn-text: #ffffff;
+      --label-long: #e08b70;
+      --label-short: #5aafaf;
+      --label-task: #c4b5e0;
 
-      --primary-tint-06: rgba(187, 154, 247, 0.06);
-      --primary-tint-10: rgba(187, 154, 247, 0.11);
-      --primary-tint-16: rgba(187, 154, 247, 0.18);
-      --accent-tint-10: rgba(247, 118, 142, 0.10);
+      --primary: var(--btn);
+      --primary-strong: #a899cc;
+      --on-primary: var(--btn-text);
+      --accent: var(--brand-to);
+      --accent-strong: #a8f0df;
+      --amber: var(--label-long);
 
-      --glow-1: rgba(187, 154, 247, 0.10);
-      --glow-2: rgba(247, 118, 142, 0.07);
+      --primary-tint-06: rgba(139, 123, 184, 0.12);
+      --primary-tint-10: rgba(139, 123, 184, 0.16);
+      --primary-tint-16: rgba(139, 123, 184, 0.22);
+      --accent-tint-10: rgba(142, 224, 207, 0.12);
 
-      --paper: #f6f8fb;            /* figure backing — stays light so PNG plots blend in */
+      --glow-1: transparent;
+      --glow-2: transparent;
+
+      --paper: #ffffff;
 
       --serif: 'et-book', "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
       --sans: 'Lato', "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
       --mono: 'Inconsolata', 'SF Mono', Menlo, Consolas, monospace;
 
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.40), 0 1px 2px rgba(0, 0, 0, 0.28);
-      --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.30);
-      --shadow-lg: 0 16px 44px rgba(0, 0, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.35);
-      --radius: 18px;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.40);
+      --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.50);
+      --radius: 12px;
 
       color-scheme: dark;
     }
 
     html[data-theme="light"] {
-      /* Violet Day × Sakura — lavender-cream paper, Tokyo-Night ink,
-         Tokyo-violet primary with sakura pink accent. */
-      --bg-deep: #f7f3fb;
-      --bg-surface: #efe7f6;
-      --bg-card: #fcfaff;
-      --text-primary: #24283b;
-      --text-secondary: #414868;
-      --text-tertiary: #565f89;
-      --text-dim: #8c8aa7;
-      --rule: #ddcdea;
-      --hairline: rgba(26, 27, 38, 0.07);
-      --hairline-strong: rgba(26, 27, 38, 0.12);
+      /* Clean white paper, near-black ink. Buttons invert: black fill / white label. */
+      /* page lightest; button strip +1 darker; card body +1.5 darker */
+      --bg-deep: #f7f8fa;
+      --bg-card: #f1f3f6;
+      --bg-surface: #f1f3f6;
+      --text-primary: #202124;
+      --text-secondary: #3c4043;
+      --text-tertiary: #5f6368;
+      --text-dim: #80868b;
+      --rule: #d5d8de;
+      --hairline: rgba(32, 33, 36, 0.06);
+      --hairline-strong: rgba(32, 33, 36, 0.10);
 
-      --primary: #7c3f9b;
-      --primary-strong: #5a2d80;
-      --accent: #d4408a;
-      --accent-strong: #b8316f;
+      /* Pale periwinkle → mint brand; deeper indigo buttons; lighter warm/cool labels */
+      --brand-from: #7a28c9;
+      --brand-to: #2bd4a8;
+      --btn: #6b5b95;
+      --btn-text: #ffffff;
+      --label-long: #a65d45;
+      --label-short: #2a6b6b;
+      --label-task: #56487a;
 
-      --primary-tint-06: rgba(124, 63, 155, 0.05);
-      --primary-tint-10: rgba(124, 63, 155, 0.09);
-      --primary-tint-16: rgba(124, 63, 155, 0.16);
-      --accent-tint-10: rgba(212, 64, 138, 0.09);
+      --primary: var(--btn);
+      --primary-strong: #56487a;
+      --on-primary: var(--btn-text);
+      --accent: var(--brand-to);
+      --accent-strong: #3aa995;
+      --amber: var(--label-long);
 
-      --glow-1: rgba(124, 63, 155, 0.12);
-      --glow-2: rgba(212, 64, 138, 0.09);
+      --primary-tint-06: rgba(107, 91, 149, 0.07);
+      --primary-tint-10: rgba(107, 91, 149, 0.11);
+      --primary-tint-16: rgba(107, 91, 149, 0.17);
+      --accent-tint-10: rgba(94, 196, 176, 0.10);
 
-      --paper: #fcfaff;
+      --glow-1: transparent;
+      --glow-2: transparent;
 
-      --shadow-sm: 0 1px 3px rgba(90, 45, 128, 0.06), 0 1px 2px rgba(26, 27, 38, 0.04);
-      --shadow-md: 0 6px 20px rgba(90, 45, 128, 0.08), 0 2px 6px rgba(26, 27, 38, 0.05);
-      --shadow-lg: 0 16px 44px rgba(90, 45, 128, 0.11), 0 4px 12px rgba(26, 27, 38, 0.06);
+      --paper: #ffffff;
+
+      --shadow-sm: 0 1px 2px rgba(60, 64, 67, 0.08), 0 1px 3px rgba(60, 64, 67, 0.06);
+      --shadow-md: 0 4px 12px rgba(60, 64, 67, 0.10);
+      --shadow-lg: 0 12px 28px rgba(60, 64, 67, 0.12);
 
       color-scheme: light;
     }
@@ -134,12 +153,9 @@
     body {
       margin: 0;
       font-family: var(--serif);
-      font-size: 1.08rem;
+      font-size: 1.32rem;
       color: var(--text-primary);
-      background:
-        radial-gradient(circle at 12% -8%, var(--glow-1), transparent 34rem),
-        radial-gradient(circle at 88% -4%, var(--glow-2), transparent 30rem),
-        var(--bg-deep);
+      background: var(--bg-deep);
       line-height: 1.68;
       font-feature-settings: "kern", "liga";
       transition: background-color 0.25s ease, color 0.25s ease;
@@ -172,16 +188,8 @@
       left: 0;
       width: 0%;
       height: 2px;
-      background: linear-gradient(90deg, var(--primary), var(--amber), var(--primary));
-      background-size: 200% 100%;
-      animation: shimmerBar 4s ease infinite;
+      background: var(--primary);
       z-index: 9999;
-    }
-
-    @keyframes shimmerBar {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
     }
 
     /* ───── theme toggle ───── */
@@ -195,17 +203,18 @@
       border-radius: 50%;
       background: var(--bg-card);
       border: 1px solid var(--rule);
-      color: var(--primary);
+      color: var(--text-secondary);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       box-shadow: var(--shadow-sm);
-      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .theme-toggle:hover {
       border-color: var(--primary);
+      color: var(--primary);
       transform: translateY(-1px);
     }
 
@@ -221,7 +230,7 @@
     html[data-theme="dark"] .theme-toggle .icon-moon { display: none; }
 
     .container {
-      width: min(1080px, calc(100% - 40px));
+      width: min(1240px, calc(100% - 40px));
       margin: 0 auto;
     }
 
@@ -247,11 +256,12 @@
     }
 
     .hero-title-main .accent {
-      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+      /* Left fades sooner; right holds the blend longer before settling on cyan */
+      background: linear-gradient(105deg, var(--brand-from) 0%, var(--brand-from) 18%, var(--brand-to) 92%, var(--brand-to) 100%);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
-      color: var(--primary); /* fallback for browsers without background-clip:text */
+      color: var(--brand-from);
     }
 
     .hero-title-main .line {
@@ -259,33 +269,52 @@
       white-space: nowrap;
     }
 
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 18px;
-      padding: 8px 16px;
-      border: 1px solid var(--rule);
-      border-radius: 999px;
-      background: var(--primary-tint-06);
+    .authors {
+      margin: 22px auto 0;
+      max-width: 980px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-family: var(--sans);
+      font-size: 19.5px;
+      font-weight: 700;
+      line-height: 1.65;
+    }
+
+    .authors-list {
+      margin: 0;
+      font-weight: 700;
+      color: var(--text-primary);
+      text-wrap: balance;
+    }
+
+    .authors-list .eq {
+      font-weight: 700;
+    }
+
+    .authors-list sup {
+      font-size: 0.92em;
+      font-weight: 700;
       color: var(--text-tertiary);
-      font-family: var(--mono);
-      font-size: 12.5px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
     }
 
-    .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--amber);
-      animation: pulseSoft 2.6s ease infinite;
+    .authors-affil sup {
+      font-size: 0.92em;
+      font-weight: 700;
     }
 
-    @keyframes pulseSoft {
-      0%, 100% { opacity: 0.45; }
-      50% { opacity: 1; }
+    .authors-affil {
+      margin: 10px 0 0;
+      font-size: 17.5px;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      line-height: 1.55;
+    }
+
+    .authors-note {
+      margin: 8px 0 0;
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--text-dim);
     }
 
     /* ───── section titles with gilt rule ornament ───── */
@@ -302,16 +331,12 @@
     .hero-divider-title::after {
       content: "";
       display: block;
-      width: 140px;
-      height: 1px;
-      margin: 12px auto 0;
-      background: linear-gradient(to right,
-        transparent 0%,
-        var(--primary) 30%,
-        var(--amber) 50%,
-        var(--primary) 70%,
-        transparent 100%);
-      opacity: 0.8;
+      width: 48px;
+      height: 2px;
+      margin: 14px auto 0;
+      background: var(--primary);
+      opacity: 0.9;
+      border-radius: 1px;
     }
 
     .hero-divider-title.critical-designs {
@@ -342,27 +367,31 @@
     }
 
     .subtitle {
-      max-width: 780px;
+      max-width: none;
       margin: 0;
       color: var(--text-secondary);
-      font-size: 18px;
+      font-size: 22px;
       line-height: 1.75;
     }
 
     .hero-points {
-      margin: 18px 0 0;
+      margin: 8px 0 0;
       padding-left: 20px;
       color: var(--text-secondary);
-      font-size: 18px;
-      line-height: 1.75;
+      font-size: 22px;
+      line-height: 1.45;
     }
 
     .hero-points li {
-      margin: 10px 0;
+      margin: 2px 0;
     }
 
     .hero-points li::marker {
       color: var(--amber);
+    }
+
+    .hero-points + .subtitle {
+      margin-top: 22px;
     }
 
     /* ───── text blocks ───── */
@@ -386,7 +415,7 @@
     .ptflow-subsection p {
       margin: 0;
       color: var(--text-secondary);
-      font-size: 18px;
+      font-size: 22px;
       line-height: 1.75;
     }
 
@@ -445,9 +474,9 @@
 
     .caption {
       margin: 12px 4px 2px;
-      color: var(--text-tertiary);
-      font-size: 16px;
-      line-height: 1.55;
+      color: var(--text-secondary);
+      font-size: 22px;
+      line-height: 1.75;
     }
 
     .caption strong {
@@ -553,7 +582,7 @@
     }
 
     .button.primary {
-      color: var(--bg-deep);
+      color: var(--on-primary);
       border-color: var(--primary);
       background: var(--primary);
     }
@@ -712,7 +741,7 @@
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--label-task);
       margin-bottom: 2px;
     }
 
@@ -868,11 +897,11 @@
     }
 
     .traj-case-group[data-group="long"] .traj-case-label {
-      color: var(--accent);
+      color: var(--label-long);
     }
 
     .traj-case-group[data-group="short"] .traj-case-label {
-      color: var(--primary);
+      color: var(--label-short);
     }
 
     .traj-tabs {
@@ -907,7 +936,7 @@
     .traj-tabs button.active {
       background: var(--primary);
       border-color: var(--primary);
-      color: var(--bg-deep);
+      color: var(--on-primary);
       box-shadow: var(--shadow-md);
     }
 
@@ -962,17 +991,23 @@
       border-radius: 50%;
       border: 1px solid var(--rule);
       background: var(--bg-card);
-      color: var(--primary);
+      color: var(--text-primary);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      transition: border-color 0.2s ease, transform 0.2s ease;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
     }
 
     .traj-btn:hover {
-      border-color: var(--primary);
+      border-color: var(--text-primary);
       transform: translateY(-1px);
+    }
+
+    .traj-btn.playing {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--on-primary);
     }
 
     .traj-btn svg {
@@ -1015,7 +1050,7 @@
       inset: 0 auto 0 0;
       width: 0%;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
+      background: var(--primary);
     }
 
     .traj-scrub-knob {
@@ -1059,7 +1094,7 @@
 
     .traj-speeds button.active {
       background: var(--primary);
-      color: var(--bg-deep);
+      color: var(--on-primary);
     }
 
     @media (max-width: 820px) {
@@ -1167,9 +1202,24 @@
           <span class="line"><span class="accent">ODEWorld</span>: A Continuous Predictive Architecture</span>
           <span class="line">via Physical-Time Flow</span>
         </h2>
-        <div class="badge e2">
-          <span class="dot"></span>
-          Anonymous Project Page
+        <div class="authors e2">
+          <p class="authors-list">
+            Dongxiu Liu<sup>1*&#8224;</sup>,
+            Haoyi Niu<sup>2*&#9993;</sup>,
+            Peng Cheng<sup>1&#8224;</sup>,
+            Yuan Gao<sup>1&#8224;</sup>,
+            <span class="eq">Xirui Kang</span><sup>1&#8224;</sup>,<br />
+            <span class="eq">Sangli Teng</span><sup>2</sup>,
+            <span class="eq">Koushil Sreenath</span><sup>2</sup>,
+            <span class="eq">Xianyuan Zhan</span><sup>1&#9993;</sup>
+          </p>
+          <p class="authors-affil">
+            <sup>1</sup> Institute for AI Industry Research (AIR), Tsinghua University, Beijing, China<br />
+            <sup>2</sup> Berkeley Artificial Intelligence Research (BAIR), University of California, Berkeley, CA, USA
+          </p>
+          <p class="authors-note">
+            * Equal contribution &nbsp;&nbsp; &#9993; Corresponding author
+          </p>
         </div>
         <!-- <div class="hero-top-actions">
           <a class="button primary" href="#">Paper</a>
@@ -1178,52 +1228,102 @@
       </div>
 
       <h2 class="hero-divider-title e3">Physical-Time World Modeling</h2>
-      <div class="hero-split">
-        <div class="hero-media e4">
-          <img src="./figures/sample03_0.45_Aligned.png" alt="Velocity field and latent planning visualization" />
-        </div>
-
-        <div class="hero-copy e5">
-          <p class="subtitle">
-            PT-Flow models sequential dynamics as a continuous latent velocity field in physical time, rather than fixed discrete next-step prediction.
-          </p>
-
-          <ul class="hero-points">
-            <li>The prediction of the future can be recast as temporal integration via an ODE solver in the compressed latent space.</li>
-            <li>Supports arbitrary timestamps and even backward prediction through ODE integration, which is impossible for most discrete-time models.</li>
-            <li>Compact latent planning enables efficient rollout for both video generation and control guidance.</li>
-          </ul>
-        </div>
-      </div>
-
-      <h2 class="hero-divider-title">Bidirectional &amp; Any-Resolution Generation</h2>
-      <div class="results-grid">
-        <div class="media-card">
-          <img class="media" src="./figures/forward-backward-p001.png" alt="Forward and backward prediction" />
-          <p class="caption">
-            <strong>Bidirectional generation.</strong> Continuous-time formulation enables both forward and backward prediction with physically plausible motion.
-          </p>
-        </div>
-
-        <div class="media-card">
-          <img class="media" src="./figures/Any-resolution-p001.png" alt="Any-resolution generation" />
-          <p class="caption">
-            <strong>Any-resolution temporal generation.</strong> ODEWorld supports flexible temporal speed and can recover missing intermediate observations.
-          </p>
-        </div>
-      </div>
-
-      <h2 class="hero-divider-title">Video Generation Results</h2>
-      <div class="ptflow-text-block critical-designs-block">
+      <div class="ptflow-text-block e5">
         <p class="subtitle">
-         <strong>Explore trajectory generation with ODEWorld.</strong>
-          Continuous-time dynamics enable denser temporal sampling beyond the training data while maintaining visually plausible rollouts. 
+          PT-Flow models dynamics as a <strong>continuous latent velocity field in physical time</strong>, rather than discrete next-step prediction.
+        </p>
+
+        <ul class="hero-points">
+          <li>ODE-based future prediction in compressed latent space.</li>
+          <li>Arbitrary-time queries, and even backward prediction.</li>
+          <li>Compact latents for efficient rollouts.</li>
+        </ul>
+
+        <p class="subtitle">
+          <strong>Explore trajectory generation with ODEWorld.</strong>
+          Continuous-time dynamics enable denser temporal sampling beyond the training data while maintaining visually plausible rollouts.
           Long-horizon trajectories can also be generated with replanning. Note that replanning points are realigned for visualization clarity.
           Drag the timeline to explore any frame.
         </p>
 
+        <h3 class="traj-dataset-title">Results on AgiBot</h3>
+        <div class="traj-viewer" id="agibotViewer" data-traj-viewer>
+          <div class="traj-casebar" data-traj="casebar" aria-label="AgiBot rollout cases"></div>
+          <div class="traj-stage">
+            <p class="traj-empty" data-traj="empty">Select a case to explore</p>
+            <div class="traj-panels">
+              <div class="traj-cond">
+                <figure class="traj-panel traj-panel-s0">
+                  <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
+                  <figcaption>
+                    <span class="traj-s0-main">initial state</span>
+                    <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
+                  </figcaption>
+                </figure>
+                <figure class="traj-panel traj-panel-goal">
+                  <img data-traj="goal" alt="Goal state" draggable="false" />
+                  <figcaption>goal image</figcaption>
+                </figure>
+              </div>
+
+              <div class="traj-right">
+                <div class="traj-flow">
+                  <div class="traj-arrow traj-arrow-rollout">
+                    <span class="arr">&#8594;</span>
+                    <span data-traj="rolloutLabel">ODE<br>Rollout</span>
+                  </div>
+
+                  <div class="traj-mid">
+                    <div class="traj-task">
+                      <span class="traj-cond-kicker">Task Instruction</span>
+                      <p class="traj-lang" data-traj="lang"></p>
+                    </div>
+                    <figure class="traj-panel traj-panel-pca">
+                      <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
+                      <figcaption>latent trajectory (PCA)</figcaption>
+                    </figure>
+                  </div>
+
+                  <div class="traj-arrow traj-arrow-decode">
+                    <span class="arr">&#8594;</span>
+                    Decode
+                  </div>
+
+                  <figure class="traj-panel traj-panel-frame">
+                    <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
+                    <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+
+            <div class="traj-controls">
+              <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+
+              <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
+                   aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="149" aria-valuenow="1">
+                <div class="traj-scrub-track">
+                  <div class="traj-scrub-fill" data-traj="fill"></div>
+                  <div class="traj-scrub-knob" data-traj="knob"></div>
+                </div>
+              </div>
+
+              <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
+                <button type="button" data-speed="0.1">0.1&times;</button>
+                <button type="button" data-speed="0.5">0.5&times;</button>
+                <button type="button" data-speed="1" class="active">1&times;</button>
+                <button type="button" data-speed="2">2&times;</button>
+                <button type="button" data-speed="4">4&times;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <h3 class="traj-dataset-title">Results on Libero</h3>
-        <div class="traj-viewer is-waiting" id="liberoViewer" data-traj-viewer>
+        <div class="traj-viewer" id="liberoViewer" data-traj-viewer>
           <div class="traj-casebar" data-traj="casebar" aria-label="LIBERO rollout cases"></div>
           <div class="traj-stage">
             <p class="traj-empty" data-traj="empty">Select a case to explore</p>
@@ -1297,81 +1397,22 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <h3 class="traj-dataset-title">Results on AgiBot</h3>
-        <div class="traj-viewer is-waiting" id="agibotViewer" data-traj-viewer>
-          <div class="traj-casebar" data-traj="casebar" aria-label="AgiBot rollout cases"></div>
-          <div class="traj-stage">
-            <p class="traj-empty" data-traj="empty">Select a case to explore</p>
-            <div class="traj-panels">
-              <div class="traj-cond">
-                <figure class="traj-panel traj-panel-s0">
-                  <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
-                  <figcaption>
-                    <span class="traj-s0-main">initial state</span>
-                    <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
-                  </figcaption>
-                </figure>
-                <figure class="traj-panel traj-panel-goal">
-                  <img data-traj="goal" alt="Goal state" draggable="false" />
-                  <figcaption>goal image</figcaption>
-                </figure>
-              </div>
+      <h2 class="hero-divider-title">Bidirectional &amp; Any-Resolution Generation</h2>
+      <div class="results-grid">
+        <div class="media-card">
+          <img class="media" src="./figures/forward-backward-p001.png" alt="Forward and backward prediction" />
+          <p class="caption">
+            <strong>Bidirectional generation.</strong> Continuous-time formulation enables both forward and backward prediction with physically plausible motion.
+          </p>
+        </div>
 
-              <div class="traj-right">
-                <div class="traj-flow">
-                  <div class="traj-arrow traj-arrow-rollout">
-                    <span class="arr">&#8594;</span>
-                    <span data-traj="rolloutLabel">ODE<br>Rollout</span>
-                  </div>
-
-                  <div class="traj-mid">
-                    <div class="traj-task">
-                      <span class="traj-cond-kicker">Task Instruction</span>
-                      <p class="traj-lang" data-traj="lang"></p>
-                    </div>
-                    <figure class="traj-panel traj-panel-pca">
-                      <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
-                      <figcaption>latent trajectory (PCA)</figcaption>
-                    </figure>
-                  </div>
-
-                  <div class="traj-arrow traj-arrow-decode">
-                    <span class="arr">&#8594;</span>
-                    Decode
-                  </div>
-
-                  <figure class="traj-panel traj-panel-frame">
-                    <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
-                    <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
-                  </figure>
-                </div>
-              </div>
-            </div>
-
-            <div class="traj-controls">
-              <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
-                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-              </button>
-
-              <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
-                   aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="149" aria-valuenow="1">
-                <div class="traj-scrub-track">
-                  <div class="traj-scrub-fill" data-traj="fill"></div>
-                  <div class="traj-scrub-knob" data-traj="knob"></div>
-                </div>
-              </div>
-
-              <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
-                <button type="button" data-speed="0.1">0.1&times;</button>
-                <button type="button" data-speed="0.5">0.5&times;</button>
-                <button type="button" data-speed="1" class="active">1&times;</button>
-                <button type="button" data-speed="2">2&times;</button>
-                <button type="button" data-speed="4">4&times;</button>
-              </div>
-            </div>
-          </div>
+        <div class="media-card">
+          <img class="media" src="./figures/Any-resolution-p001.png" alt="Any-resolution generation" />
+          <p class="caption">
+            <strong>Any-resolution temporal generation.</strong> ODEWorld supports flexible temporal speed and can recover missing intermediate observations.
+          </p>
         </div>
       </div>
 
@@ -1724,7 +1765,7 @@
   </main>
 
   <footer class="container footer">
-    Anonymous project page for a NeurIPS submission.
+    ODEWorld project page.
   </footer>
 
   <script>
@@ -1878,18 +1919,6 @@
           id: 'case1',
           label: 'Case 1',
           group: 'long',
-          maxFrame: 1499,
-          chunk: 500,
-          step: 10,
-          hasPca: true,
-          goalFile: 'goal.png',
-          // No keyframes/ dir — extract s0 from video_rollout like other cases.
-          instruction: 'Pick up the plate'
-        },
-        {
-          id: 'case2',
-          label: 'Case 2',
-          group: 'long',
           maxFrame: null,
           endRatio: 0.9, // present first 90% only
           chunk: 500,
@@ -1897,6 +1926,17 @@
           hasPca: true,
           goalFile: 'goal.png',
           instruction: 'Heat the food in the microwave'
+        },
+        {
+          id: 'case2',
+          label: 'Case 2',
+          group: 'long',
+          maxFrame: 1499,
+          chunk: 500,
+          step: 10,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Pick up the plate'
         },
         {
           id: 'case3',
@@ -1993,11 +2033,19 @@
         return root.querySelector('[data-traj="' + name + '"]');
       }
 
+      function firstReadyIndex(cases) {
+        for (var i = 0; i < cases.length; i++) {
+          if (!cases[i].empty) return i;
+        }
+        return -1;
+      }
+
       function initTrajViewer(viewer, opts) {
         if (!viewer) return;
         var BASE = opts.base;
         var CASES = opts.cases;
         var defaultGoalFile = opts.defaultGoalFile || null;
+        var autoplayOnLoad = !!opts.autoplayOnLoad;
         var BASE_STEP = 20;
 
         var video = q(viewer, 'frame');
@@ -2031,18 +2079,18 @@
         var pendingS0 = null;
         var shownS0 = -1;
 
-        // Start with no case selected — user picks a tab to load media.
-        var caseIndex = -1;
-        var cfg = { empty: true };
-        var DIR = '';
-        var MAX_FRAME = 1;
-        var CHUNK = 1000;
+        var caseIndex = firstReadyIndex(CASES);
+        var cfg = caseIndex >= 0 ? CASES[caseIndex] : { empty: true };
+        var DIR = caseIndex >= 0 ? (BASE + cfg.id + '/') : '';
+        var MAX_FRAME = (cfg.maxFrame != null ? cfg.maxFrame : 1) || 1;
+        var CHUNK = cfg.chunk || 1000;
         var maxCondChunk = 0;
         var frame = MIN_FRAME;
         var speed = 1;
         var playing = false;
         var onScreen = false;
         var scrubbing = false;
+        var booted = false;
 
         function videoTimeForIndex(idx) {
           return (idx + 0.5) / VIDEO_FPS;
@@ -2262,6 +2310,9 @@
                 btn.title = 'Coming soon';
                 btn.setAttribute('aria-disabled', 'true');
                 btn.setAttribute('aria-selected', 'false');
+              } else if (i === caseIndex) {
+                btn.className = 'active';
+                btn.setAttribute('aria-selected', 'true');
               } else {
                 btn.setAttribute('aria-selected', 'false');
               }
@@ -2448,30 +2499,41 @@
           else if (e.key === ' ') { setPlaying(!playing, false); e.preventDefault(); }
         });
 
+        function bootFirstCase() {
+          if (booted || caseIndex < 0) return;
+          booted = true;
+          loadCase(caseIndex, autoplayOnLoad);
+        }
+
         if ('IntersectionObserver' in window) {
           new IntersectionObserver(function (entries) {
             entries.forEach(function (en) {
               onScreen = en.isIntersecting;
+              if (onScreen) bootFirstCase();
               // Leaving the viewport pauses playback but keeps the scrub position.
               if (!onScreen && playing) setPlaying(false, true);
             });
           }, { threshold: 0.05, rootMargin: '200px 0px' }).observe(viewer);
         } else {
           onScreen = true;
+          bootFirstCase();
         }
 
         buildTabs();
-        setPlaying(false);
+        if (caseIndex < 0) setPlaying(false);
       }
 
+      // Libero first (paused), then AgiBot with autoplay so it becomes the active player.
       initTrajViewer(document.getElementById('liberoViewer'), {
         base: './figures/libero%20rollouts/',
-        cases: LIBERO_CASES
+        cases: LIBERO_CASES,
+        autoplayOnLoad: false
       });
       initTrajViewer(document.getElementById('agibotViewer'), {
         base: './figures/agibot_rollouts/',
         cases: AGIBOT_CASES,
-        defaultGoalFile: 'goal.png'
+        defaultGoalFile: 'goal.png',
+        autoplayOnLoad: true
       });
     })();
 
