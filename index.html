@@ -1018,16 +1018,6 @@
       background: linear-gradient(90deg, var(--primary), var(--accent));
     }
 
-    .traj-scrub-mark {
-      position: absolute;
-      top: -4px;
-      bottom: -4px;
-      width: 2px;
-      background: var(--text-dim);
-      opacity: 0.55;
-      border-radius: 1px;
-    }
-
     .traj-scrub-knob {
       position: absolute;
       top: 50%;
@@ -1896,7 +1886,17 @@
           // No keyframes/ dir — extract s0 from video_rollout like other cases.
           instruction: 'dummy instruction'
         },
-        { id: 'case2', label: 'Case 2', group: 'long', empty: true },
+        {
+          id: 'case2',
+          label: 'Case 2',
+          group: 'long',
+          maxFrame: null,
+          chunk: 500,
+          step: 10,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'dummy instruction'
+        },
         { id: 'case3', label: 'Case 3', group: 'long', empty: true },
         {
           id: 'case4',
@@ -1996,7 +1996,6 @@
         var fill = q(viewer, 'fill');
         var knob = q(viewer, 'knob');
         var scrub = q(viewer, 'scrub');
-        var scrubTrack = scrub.querySelector('.traj-scrub-track');
         var playBtn = q(viewer, 'play');
         var speedsEl = q(viewer, 'speeds');
         var casebarEl = q(viewer, 'casebar');
@@ -2060,7 +2059,6 @@
             MAX_FRAME = Math.max(MIN_FRAME, autoMax);
           }
           maxCondChunk = Math.max(0, Math.floor((MAX_FRAME - 1) / CHUNK));
-          rebuildMarks();
           scrub.setAttribute('aria-valuemax', MAX_FRAME);
           if (frame > MAX_FRAME) frame = MAX_FRAME;
           return true;
@@ -2179,17 +2177,6 @@
             });
           }
           run();
-        }
-
-        function rebuildMarks() {
-          scrubTrack.querySelectorAll('.traj-scrub-mark').forEach(function (m) { m.remove(); });
-          for (var t = CHUNK; t < MAX_FRAME; t += CHUNK) {
-            var mark = document.createElement('div');
-            mark.className = 'traj-scrub-mark';
-            mark.style.left = ((t - MIN_FRAME) / (MAX_FRAME - MIN_FRAME) * 100) + '%';
-            scrubTrack.insertBefore(mark, scrubTrack.querySelector('.traj-scrub-knob'));
-          }
-          scrub.setAttribute('aria-valuemax', MAX_FRAME);
         }
 
         function render() {
@@ -2326,7 +2313,7 @@
             pcaVideo.load();
           }
 
-          rebuildMarks();
+          scrub.setAttribute('aria-valuemax', MAX_FRAME);
           scrub.setAttribute('aria-valuenow', frame);
           // Initial page load stays paused; clicking a case tab autoplays.
           setPlaying(!!autoplay);
