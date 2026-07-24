@@ -12,7 +12,12 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-FIGURES="${ROOT}/figures"
+# Prefer docs/figures (GitHub Pages publish root); fall back to ./figures.
+if [[ -d "${ROOT}/docs/figures" ]]; then
+  FIGURES="${ROOT}/docs/figures"
+else
+  FIGURES="${ROOT}/figures"
+fi
 HEIGHT=720
 CRF=28
 PRESET=medium
