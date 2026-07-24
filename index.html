@@ -1884,7 +1884,7 @@
           hasPca: true,
           goalFile: 'goal.png',
           // No keyframes/ dir — extract s0 from video_rollout like other cases.
-          instruction: 'dummy instruction'
+          instruction: 'Pick up the plate'
         },
         {
           id: 'case2',
@@ -1896,9 +1896,20 @@
           step: 10,
           hasPca: true,
           goalFile: 'goal.png',
-          instruction: 'dummy instruction'
+          instruction: 'Heat the food in the microwave'
         },
-        { id: 'case3', label: 'Case 3', group: 'long', empty: true },
+        {
+          id: 'case3',
+          label: 'Case 3',
+          group: 'long',
+          maxFrame: null,
+          endRatio: 0.6, // present first 60% only
+          chunk: 500,
+          step: 10,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Pick up the cup brush'
+        },
         {
           id: 'case4',
           label: 'Case 4',
@@ -1908,7 +1919,7 @@
           step: 3,
           hasPca: true,
           goalFile: 'goal.png',
-          instruction: 'dummy instruction'
+          instruction: 'Heat the food in the microwave'
         },
         {
           id: 'case5',
@@ -1919,7 +1930,7 @@
           step: 3,
           hasPca: true,
           goalFile: 'goal.png',
-          instruction: 'dummy instruction'
+          instruction: 'Heat the food in the microwave'
         },
         {
           id: 'case6',
@@ -1930,7 +1941,7 @@
           step: 3,
           hasPca: true,
           goalFile: 'goal.png',
-          instruction: 'dummy instruction'
+          instruction: 'Restock supermarket items'
         },
         {
           id: 'case7',
@@ -1941,7 +1952,7 @@
           step: 3,
           hasPca: true,
           goalFile: 'goal.png',
-          instruction: 'dummy instruction'
+          instruction: 'Restock supermarket items'
         },
         {
           id: 'case8',
@@ -1952,7 +1963,7 @@
           step: 3,
           hasPca: true,
           goalFile: 'goal.png',
-          instruction: 'dummy instruction'
+          instruction: 'Pack washing detergent from conveyor'
         },
         {
           id: 'case9',
@@ -1963,7 +1974,7 @@
           step: 3,
           hasPca: true,
           goalFile: 'goal.png',
-          instruction: 'dummy instruction'
+          instruction: 'Open the machine and add water'
         },
         {
           id: 'case10',
@@ -1974,7 +1985,7 @@
           step: 3,
           hasPca: true,
           goalFile: 'goal.png',
-          instruction: 'dummy instruction'
+          instruction: 'Open the machine and add water'
         }
       ];
 
