@@ -1729,6 +1729,8 @@
       var MIN_FRAME = 1;
       var TICK_MS = 100;
       var VIDEO_FPS = 30;
+      // Only one viewer plays at a time; scrubbing still works while paused.
+      var trajPlayers = [];
 
       var LIBERO_CASES = [
         {
@@ -1850,7 +1852,7 @@
           step: 10,
           hasPca: true,
           goalFile: 'goal.png',
-          condDir: 'keyframes',
+          // No keyframes/ dir — extract s0 from video_rollout like other cases.
           instruction: 'dummy instruction'
         },
         { id: 'case2', label: 'Case 2', group: 'long', empty: true },
@@ -1992,7 +1994,7 @@
         var maxCondChunk = 0;
         var frame = MIN_FRAME;
         var speed = 1;
-        var playing = true;
+        var playing = false;
         var onScreen = false;
         var scrubbing = false;
         var mediaLoaded = false;
@@ -2175,11 +2177,22 @@
           render();
         }
 
-        function setPlaying(p) {
-          playing = p;
-          playBtn.classList.toggle('playing', p);
-          playBtn.setAttribute('aria-label', p ? 'Pause' : 'Play');
+        function setPlaying(p, fromPeer) {
+          playing = !!p;
+          playBtn.classList.toggle('playing', playing);
+          playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+          if (playing && !fromPeer) {
+            trajPlayers.forEach(function (other) {
+              if (other !== controller) other.setPlaying(false, true);
+            });
+          }
         }
+
+        var controller = {
+          setPlaying: setPlaying,
+          isPlaying: function () { return playing; }
+        };
+        trajPlayers.push(controller);
 
         function buildTabs() {
           casebarEl.innerHTML = '';
@@ -2265,12 +2278,16 @@
           }
 
           var src = DIR + 'video_rollout.mp4';
+          // preload=none blocks first-frame paint; switch on when actually loading a case.
+          video.preload = 'auto';
+          capture.preload = 'auto';
           video.src = src;
           video.load();
           capture.src = src;
           capture.load();
 
           if (cfg.hasPca) {
+            pcaVideo.preload = 'auto';
             pcaVideo.src = DIR + 'pca_field.mp4';
             pcaVideo.load();
           } else {
@@ -2280,16 +2297,28 @@
 
           rebuildMarks();
           scrub.setAttribute('aria-valuenow', frame);
+          setPlaying(false);
 
-          function onDisplayReady() {
+          function paintFirstFrame() {
             syncLengthFromMedia();
             setFrame(MIN_FRAME);
+            // Ensure the paused <video> actually shows frame 1 (not a blank poster).
+            try { video.pause(); } catch (e) {}
+            if (cfg.hasPca) {
+              try { pcaVideo.pause(); } catch (e) {}
+            }
+          }
+          function onDisplayReady() {
+            paintFirstFrame();
+            // Some browsers need a seeked/loadeddata pass after compression.
+            if (video.readyState >= 2) paintFirstFrame();
+            else video.addEventListener('loadeddata', paintFirstFrame, { once: true });
           }
           if (video.readyState >= 1) { onDisplayReady(); }
           else { video.addEventListener('loadedmetadata', onDisplayReady, { once: true }); }
           if (cfg.hasPca) {
-            if (pcaVideo.readyState >= 1) { onDisplayReady(); }
-            else { pcaVideo.addEventListener('loadedmetadata', onDisplayReady, { once: true }); }
+            if (pcaVideo.readyState >= 1) { paintFirstFrame(); }
+            else { pcaVideo.addEventListener('loadedmetadata', paintFirstFrame, { once: true }); }
           }
 
           setGoal(token);
@@ -2303,6 +2332,7 @@
             onCaptureReady();
           } else {
             capture.addEventListener('loadedmetadata', onCaptureReady, { once: true });
+            capture.addEventListener('loadeddata', onCaptureReady, { once: true });
           }
 
           casebarEl.querySelectorAll('button[data-case]').forEach(function (b) {
@@ -2319,7 +2349,7 @@
           setFrame(next > MAX_FRAME ? MIN_FRAME : next);
         }, TICK_MS);
 
-        playBtn.addEventListener('click', function () { setPlaying(!playing); });
+        playBtn.addEventListener('click', function () { setPlaying(!playing, false); });
 
         speedsEl.addEventListener('click', function (e) {
           var btn = e.target.closest('button[data-speed]');
@@ -2389,7 +2419,7 @@
           else if (e.key === 'ArrowLeft') { setFrame(frame - BASE_STEP); e.preventDefault(); }
           else if (e.key === 'Home') { setFrame(MIN_FRAME); e.preventDefault(); }
           else if (e.key === 'End') { setFrame(MAX_FRAME); e.preventDefault(); }
-          else if (e.key === ' ') { setPlaying(!playing); e.preventDefault(); }
+          else if (e.key === ' ') { setPlaying(!playing, false); e.preventDefault(); }
         });
 
         // Only fetch videos once the viewer nears / enters the viewport.
@@ -2398,6 +2428,8 @@
             entries.forEach(function (en) {
               onScreen = en.isIntersecting;
               if (onScreen) ensureMediaLoaded();
+              // Leaving the viewport pauses playback but keeps the scrub position.
+              if (!onScreen && playing) setPlaying(false, true);
             });
           }, { threshold: 0.05, rootMargin: '200px 0px' }).observe(viewer);
         } else {
@@ -2406,7 +2438,7 @@
         }
 
         buildTabs();
-        setPlaying(true);
+        setPlaying(false);
       }
 
       initTrajViewer(document.getElementById('liberoViewer'), {
