@@ -599,6 +599,40 @@
       padding: 0 22px 18px;
     }
 
+    /* Keep waiting-state card the same height as a loaded case:
+       reserve layout via hidden panels, overlay the prompt. */
+    .traj-stage {
+      position: relative;
+    }
+
+    .traj-empty {
+      display: none;
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      margin: 0;
+      padding: 28px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 0.98rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--text-dim);
+      background: var(--bg-surface);
+    }
+
+    .traj-viewer.is-waiting .traj-empty {
+      display: flex;
+    }
+
+    .traj-viewer.is-waiting .traj-panels,
+    .traj-viewer.is-waiting .traj-controls {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
     .traj-panels {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
@@ -632,6 +666,7 @@
     .traj-panel video {
       width: 100%;
       height: auto;
+      aspect-ratio: 1 / 1;
       display: block;
       border-radius: 10px;
       background: var(--bg-card);
@@ -1198,147 +1233,153 @@
         </p>
 
         <h3 class="traj-dataset-title">Results on Libero</h3>
-        <div class="traj-viewer" id="liberoViewer" data-traj-viewer>
+        <div class="traj-viewer is-waiting" id="liberoViewer" data-traj-viewer>
           <div class="traj-casebar" data-traj="casebar" aria-label="LIBERO rollout cases"></div>
-          <div class="traj-panels">
-            <div class="traj-cond">
-              <figure class="traj-panel traj-panel-s0">
-                <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
-                <figcaption>
-                  <span class="traj-s0-main">initial state</span>
-                  <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
-                </figcaption>
-              </figure>
-              <figure class="traj-panel traj-panel-goal">
-                <img data-traj="goal" alt="Goal state" draggable="false" />
-                <figcaption>goal image</figcaption>
-              </figure>
-            </div>
-
-            <div class="traj-right">
-              <div class="traj-flow">
-                <div class="traj-arrow traj-arrow-rollout">
-                  <span class="arr">&#8594;</span>
-                  <span data-traj="rolloutLabel">ODE<br>Rollout</span>
-                </div>
-
-                <div class="traj-mid">
-                  <div class="traj-task">
-                    <span class="traj-cond-kicker">Task Instruction</span>
-                    <p class="traj-lang" data-traj="lang">&ldquo;put the black bowl in the bottom drawer of the cabinet&rdquo;</p>
-                  </div>
-                  <figure class="traj-panel traj-panel-pca">
-                    <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
-                    <figcaption>latent trajectory (PCA)</figcaption>
-                  </figure>
-                </div>
-
-                <div class="traj-arrow traj-arrow-decode">
-                  <span class="arr">&#8594;</span>
-                  Decode
-                </div>
-
-                <figure class="traj-panel traj-panel-frame">
-                  <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
-                  <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
+          <div class="traj-stage">
+            <p class="traj-empty" data-traj="empty">Select a case to explore</p>
+            <div class="traj-panels">
+              <div class="traj-cond">
+                <figure class="traj-panel traj-panel-s0">
+                  <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
+                  <figcaption>
+                    <span class="traj-s0-main">initial state</span>
+                    <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
+                  </figcaption>
+                </figure>
+                <figure class="traj-panel traj-panel-goal">
+                  <img data-traj="goal" alt="Goal state" draggable="false" />
+                  <figcaption>goal image</figcaption>
                 </figure>
               </div>
-            </div>
-          </div>
 
-          <div class="traj-controls">
-            <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
-              <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-            </button>
+              <div class="traj-right">
+                <div class="traj-flow">
+                  <div class="traj-arrow traj-arrow-rollout">
+                    <span class="arr">&#8594;</span>
+                    <span data-traj="rolloutLabel">ODE<br>Rollout</span>
+                  </div>
 
-            <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
-                 aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="2999" aria-valuenow="1">
-              <div class="traj-scrub-track">
-                <div class="traj-scrub-fill" data-traj="fill"></div>
-                <div class="traj-scrub-knob" data-traj="knob"></div>
+                  <div class="traj-mid">
+                    <div class="traj-task">
+                      <span class="traj-cond-kicker">Task Instruction</span>
+                      <p class="traj-lang" data-traj="lang"></p>
+                    </div>
+                    <figure class="traj-panel traj-panel-pca">
+                      <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
+                      <figcaption>latent trajectory (PCA)</figcaption>
+                    </figure>
+                  </div>
+
+                  <div class="traj-arrow traj-arrow-decode">
+                    <span class="arr">&#8594;</span>
+                    Decode
+                  </div>
+
+                  <figure class="traj-panel traj-panel-frame">
+                    <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
+                    <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
+                  </figure>
+                </div>
               </div>
             </div>
 
-            <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
-              <button type="button" data-speed="0.1">0.1&times;</button>
-              <button type="button" data-speed="0.5">0.5&times;</button>
-              <button type="button" data-speed="1" class="active">1&times;</button>
-              <button type="button" data-speed="2">2&times;</button>
-              <button type="button" data-speed="4">4&times;</button>
+            <div class="traj-controls">
+              <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+
+              <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
+                   aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="2999" aria-valuenow="1">
+                <div class="traj-scrub-track">
+                  <div class="traj-scrub-fill" data-traj="fill"></div>
+                  <div class="traj-scrub-knob" data-traj="knob"></div>
+                </div>
+              </div>
+
+              <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
+                <button type="button" data-speed="0.1">0.1&times;</button>
+                <button type="button" data-speed="0.5">0.5&times;</button>
+                <button type="button" data-speed="1" class="active">1&times;</button>
+                <button type="button" data-speed="2">2&times;</button>
+                <button type="button" data-speed="4">4&times;</button>
+              </div>
             </div>
           </div>
         </div>
 
         <h3 class="traj-dataset-title">Results on AgiBot</h3>
-        <div class="traj-viewer" id="agibotViewer" data-traj-viewer>
+        <div class="traj-viewer is-waiting" id="agibotViewer" data-traj-viewer>
           <div class="traj-casebar" data-traj="casebar" aria-label="AgiBot rollout cases"></div>
-          <div class="traj-panels">
-            <div class="traj-cond">
-              <figure class="traj-panel traj-panel-s0">
-                <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
-                <figcaption>
-                  <span class="traj-s0-main">initial state</span>
-                  <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
-                </figcaption>
-              </figure>
-              <figure class="traj-panel traj-panel-goal">
-                <img data-traj="goal" alt="Goal state" draggable="false" />
-                <figcaption>goal image</figcaption>
-              </figure>
-            </div>
-
-            <div class="traj-right">
-              <div class="traj-flow">
-                <div class="traj-arrow traj-arrow-rollout">
-                  <span class="arr">&#8594;</span>
-                  <span data-traj="rolloutLabel">ODE<br>Rollout</span>
-                </div>
-
-                <div class="traj-mid">
-                  <div class="traj-task">
-                    <span class="traj-cond-kicker">Task Instruction</span>
-                    <p class="traj-lang" data-traj="lang">&ldquo;&rdquo;</p>
-                  </div>
-                  <figure class="traj-panel traj-panel-pca">
-                    <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
-                    <figcaption>latent trajectory (PCA)</figcaption>
-                  </figure>
-                </div>
-
-                <div class="traj-arrow traj-arrow-decode">
-                  <span class="arr">&#8594;</span>
-                  Decode
-                </div>
-
-                <figure class="traj-panel traj-panel-frame">
-                  <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
-                  <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
+          <div class="traj-stage">
+            <p class="traj-empty" data-traj="empty">Select a case to explore</p>
+            <div class="traj-panels">
+              <div class="traj-cond">
+                <figure class="traj-panel traj-panel-s0">
+                  <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
+                  <figcaption>
+                    <span class="traj-s0-main">initial state</span>
+                    <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
+                  </figcaption>
+                </figure>
+                <figure class="traj-panel traj-panel-goal">
+                  <img data-traj="goal" alt="Goal state" draggable="false" />
+                  <figcaption>goal image</figcaption>
                 </figure>
               </div>
-            </div>
-          </div>
 
-          <div class="traj-controls">
-            <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
-              <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-              <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-            </button>
+              <div class="traj-right">
+                <div class="traj-flow">
+                  <div class="traj-arrow traj-arrow-rollout">
+                    <span class="arr">&#8594;</span>
+                    <span data-traj="rolloutLabel">ODE<br>Rollout</span>
+                  </div>
 
-            <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
-                 aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="149" aria-valuenow="1">
-              <div class="traj-scrub-track">
-                <div class="traj-scrub-fill" data-traj="fill"></div>
-                <div class="traj-scrub-knob" data-traj="knob"></div>
+                  <div class="traj-mid">
+                    <div class="traj-task">
+                      <span class="traj-cond-kicker">Task Instruction</span>
+                      <p class="traj-lang" data-traj="lang"></p>
+                    </div>
+                    <figure class="traj-panel traj-panel-pca">
+                      <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
+                      <figcaption>latent trajectory (PCA)</figcaption>
+                    </figure>
+                  </div>
+
+                  <div class="traj-arrow traj-arrow-decode">
+                    <span class="arr">&#8594;</span>
+                    Decode
+                  </div>
+
+                  <figure class="traj-panel traj-panel-frame">
+                    <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
+                    <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
+                  </figure>
+                </div>
               </div>
             </div>
 
-            <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
-              <button type="button" data-speed="0.1">0.1&times;</button>
-              <button type="button" data-speed="0.5">0.5&times;</button>
-              <button type="button" data-speed="1" class="active">1&times;</button>
-              <button type="button" data-speed="2">2&times;</button>
-              <button type="button" data-speed="4">4&times;</button>
+            <div class="traj-controls">
+              <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+
+              <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
+                   aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="149" aria-valuenow="1">
+                <div class="traj-scrub-track">
+                  <div class="traj-scrub-fill" data-traj="fill"></div>
+                  <div class="traj-scrub-knob" data-traj="knob"></div>
+                </div>
+              </div>
+
+              <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
+                <button type="button" data-speed="0.1">0.1&times;</button>
+                <button type="button" data-speed="0.5">0.5&times;</button>
+                <button type="button" data-speed="1" class="active">1&times;</button>
+                <button type="button" data-speed="2">2&times;</button>
+                <button type="button" data-speed="4">4&times;</button>
+              </div>
             </div>
           </div>
         </div>
@@ -1940,13 +1981,6 @@
         return root.querySelector('[data-traj="' + name + '"]');
       }
 
-      function firstReadyIndex(cases) {
-        for (var i = 0; i < cases.length; i++) {
-          if (!cases[i].empty) return i;
-        }
-        return 0;
-      }
-
       function initTrajViewer(viewer, opts) {
         if (!viewer) return;
         var BASE = opts.base;
@@ -1986,19 +2020,18 @@
         var pendingS0 = null;
         var shownS0 = -1;
 
-        var caseIndex = firstReadyIndex(CASES);
-        var cfg = CASES[caseIndex];
-        var DIR = BASE + cfg.id + '/';
-        var MAX_FRAME = cfg.maxFrame || 1;
-        var CHUNK = cfg.chunk || 1000;
+        // Start with no case selected — user picks a tab to load media.
+        var caseIndex = -1;
+        var cfg = { empty: true };
+        var DIR = '';
+        var MAX_FRAME = 1;
+        var CHUNK = 1000;
         var maxCondChunk = 0;
         var frame = MIN_FRAME;
         var speed = 1;
         var playing = false;
         var onScreen = false;
         var scrubbing = false;
-        var mediaLoaded = false;
-        var pendingCaseIndex = null;
 
         function videoTimeForIndex(idx) {
           return (idx + 0.5) / VIDEO_FPS;
@@ -2223,9 +2256,6 @@
                 btn.title = 'Coming soon';
                 btn.setAttribute('aria-disabled', 'true');
                 btn.setAttribute('aria-selected', 'false');
-              } else if (i === caseIndex) {
-                btn.className = 'active';
-                btn.setAttribute('aria-selected', 'true');
               } else {
                 btn.setAttribute('aria-selected', 'false');
               }
@@ -2252,7 +2282,7 @@
           if (progressEl) progressEl.textContent = '0.00%';
         }
 
-        function loadCase(index) {
+        function loadCase(index, autoplay) {
           if (!CASES[index] || CASES[index].empty) return;
           caseIndex = index;
           cfg = CASES[caseIndex];
@@ -2269,6 +2299,7 @@
           pendingS0 = null;
           shownS0 = -1;
 
+          viewer.classList.remove('is-waiting');
           viewer.classList.toggle('no-pca', !cfg.hasPca);
           if (rolloutLabel) rolloutLabel.innerHTML = 'ODE<br>Rollout';
           if (langEl) {
@@ -2297,7 +2328,8 @@
 
           rebuildMarks();
           scrub.setAttribute('aria-valuenow', frame);
-          setPlaying(false);
+          // Initial page load stays paused; clicking a case tab autoplays.
+          setPlaying(!!autoplay);
 
           function paintFirstFrame() {
             syncLengthFromMedia();
@@ -2344,12 +2376,15 @@
         }
 
         setInterval(function () {
-          if (!playing || !onScreen || scrubbing || cfg.empty) return;
+          if (!playing || !onScreen || scrubbing || caseIndex < 0 || cfg.empty) return;
           var next = frame + Math.round(BASE_STEP * speed);
           setFrame(next > MAX_FRAME ? MIN_FRAME : next);
         }, TICK_MS);
 
-        playBtn.addEventListener('click', function () { setPlaying(!playing, false); });
+        playBtn.addEventListener('click', function () {
+          if (caseIndex < 0) return;
+          setPlaying(!playing, false);
+        });
 
         speedsEl.addEventListener('click', function (e) {
           var btn = e.target.closest('button[data-speed]');
@@ -2369,30 +2404,13 @@
           });
         }
 
-        function ensureMediaLoaded() {
-          if (mediaLoaded) return;
-          mediaLoaded = true;
-          var idx = pendingCaseIndex != null ? pendingCaseIndex : caseIndex;
-          pendingCaseIndex = null;
-          if (CASES[idx] && !CASES[idx].empty) {
-            loadCase(idx);
-          } else {
-            clearMedia();
-          }
-        }
-
         casebarEl.addEventListener('click', function (e) {
           var btn = e.target.closest('button[data-case]');
           if (!btn || btn.disabled) return;
           var idx = parseInt(btn.dataset.case, 10);
           if (idx === caseIndex || !CASES[idx] || CASES[idx].empty) return;
-          caseIndex = idx;
           selectCaseTab(idx);
-          if (mediaLoaded) {
-            loadCase(idx);
-          } else {
-            pendingCaseIndex = idx;
-          }
+          loadCase(idx, true);
         });
 
         function frameFromEvent(ev) {
@@ -2401,6 +2419,7 @@
           return MIN_FRAME + pct * (MAX_FRAME - MIN_FRAME);
         }
         scrub.addEventListener('pointerdown', function (ev) {
+          if (caseIndex < 0) return;
           scrubbing = true;
           scrub.setPointerCapture(ev.pointerId);
           setFrame(frameFromEvent(ev));
@@ -2415,6 +2434,7 @@
         });
         scrub.addEventListener('pointercancel', function () { scrubbing = false; });
         scrub.addEventListener('keydown', function (e) {
+          if (caseIndex < 0) return;
           if (e.key === 'ArrowRight') { setFrame(frame + BASE_STEP); e.preventDefault(); }
           else if (e.key === 'ArrowLeft') { setFrame(frame - BASE_STEP); e.preventDefault(); }
           else if (e.key === 'Home') { setFrame(MIN_FRAME); e.preventDefault(); }
@@ -2422,19 +2442,16 @@
           else if (e.key === ' ') { setPlaying(!playing, false); e.preventDefault(); }
         });
 
-        // Only fetch videos once the viewer nears / enters the viewport.
         if ('IntersectionObserver' in window) {
           new IntersectionObserver(function (entries) {
             entries.forEach(function (en) {
               onScreen = en.isIntersecting;
-              if (onScreen) ensureMediaLoaded();
               // Leaving the viewport pauses playback but keeps the scrub position.
               if (!onScreen && playing) setPlaying(false, true);
             });
           }, { threshold: 0.05, rootMargin: '200px 0px' }).observe(viewer);
         } else {
           onScreen = true;
-          ensureMediaLoaded();
         }
 
         buildTabs();
