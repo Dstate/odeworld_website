@@ -1891,6 +1891,7 @@
           label: 'Case 2',
           group: 'long',
           maxFrame: null,
+          endRatio: 0.9, // present first 90% only
           chunk: 500,
           step: 10,
           hasPca: true,
@@ -2057,6 +2058,13 @@
             MAX_FRAME = Math.max(MIN_FRAME, Math.min(cfg.maxFrame, autoMax));
           } else {
             MAX_FRAME = Math.max(MIN_FRAME, autoMax);
+          }
+          // Optional clip: e.g. endRatio 0.9 → only present the first 90%.
+          if (cfg.endRatio != null && cfg.endRatio > 0 && cfg.endRatio < 1) {
+            MAX_FRAME = Math.max(
+              MIN_FRAME,
+              Math.min(MAX_FRAME, Math.round(autoMax * cfg.endRatio))
+            );
           }
           maxCondChunk = Math.max(0, Math.floor((MAX_FRAME - 1) / CHUNK));
           scrub.setAttribute('aria-valuemax', MAX_FRAME);
