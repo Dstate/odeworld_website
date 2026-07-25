@@ -1795,8 +1795,8 @@
     // Interactive rollout trajectory viewers (LIBERO + AgiBot)
     (function () {
       var CASE_GROUPS = [
-        { id: 'long', title: 'Long-horizon' },
-        { id: 'short', title: 'Short-horizon' }
+        { id: 'short', title: 'Short-horizon' },
+        { id: 'long', title: 'Long-horizon' }
       ];
       var MIN_FRAME = 1;
       var TICK_MS = 100;
@@ -1806,49 +1806,8 @@
 
       var LIBERO_CASES = [
         {
-          id: 'case1',
-          label: 'Case 1',
-          group: 'long',
-          maxFrame: 2999,
-          chunk: 1000,
-          step: 20,
-          hasPca: true,
-          instruction: 'put the black bowl in the bottom drawer of the cabinet'
-        },
-        {
-          id: 'case2',
-          label: 'Case 2',
-          group: 'long',
-          maxFrame: 6400,
-          chunk: 1000,
-          step: 20,
-          hasPca: true,
-          instruction: 'put both the alphabet soup and the cream cheese box in the basket'
-        },
-        {
-          id: 'case3',
-          label: 'Case 3',
-          group: 'long',
-          maxFrame: null,
-          chunk: 1000,
-          step: 20,
-          hasPca: true,
-          instruction: 'pick up the book and place it in the back compartment of the caddy'
-        },
-        {
-          id: 'case4',
-          label: 'Case 4',
-          group: 'short',
-          maxFrame: null,
-          chunk: 1000,
-          step: 3,
-          hasPca: true,
-          goalFile: 'goal.png',
-          instruction: 'close the top drawer of the cabinet and put the black bowl on top of it'
-        },
-        {
           id: 'case5',
-          label: 'Case 5',
+          label: 'Case 1',
           group: 'short',
           maxFrame: null,
           chunk: 1000,
@@ -1858,8 +1817,19 @@
           instruction: 'put the red mug on the left plate'
         },
         {
+          id: 'case4',
+          label: 'Case 2',
+          group: 'short',
+          maxFrame: null,
+          chunk: 1000,
+          step: 3,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'close the top drawer of the cabinet and put the black bowl on top of it'
+        },
+        {
           id: 'case6',
-          label: 'Case 6',
+          label: 'Case 3',
           group: 'short',
           maxFrame: null,
           chunk: 1000,
@@ -1870,7 +1840,7 @@
         },
         {
           id: 'case7',
-          label: 'Case 7',
+          label: 'Case 4',
           group: 'short',
           maxFrame: null,
           chunk: 1000,
@@ -1881,7 +1851,7 @@
         },
         {
           id: 'case8',
-          label: 'Case 8',
+          label: 'Case 5',
           group: 'short',
           maxFrame: null,
           chunk: 1000,
@@ -1892,7 +1862,7 @@
         },
         {
           id: 'case9',
-          label: 'Case 9',
+          label: 'Case 6',
           group: 'short',
           maxFrame: null,
           chunk: 1000,
@@ -1903,7 +1873,7 @@
         },
         {
           id: 'case10',
-          label: 'Case 10',
+          label: 'Case 7',
           group: 'short',
           maxFrame: null,
           chunk: 1000,
@@ -1911,13 +1881,120 @@
           hasPca: true,
           goalFile: 'goal.png',
           instruction: 'put the black bowl in the bottom drawer of the cabinet'
+        },
+        {
+          id: 'case1',
+          label: 'Case 8',
+          group: 'long',
+          maxFrame: 2999,
+          chunk: 1000,
+          step: 20,
+          hasPca: true,
+          instruction: 'put the black bowl in the bottom drawer of the cabinet'
+        },
+        {
+          id: 'case2',
+          label: 'Case 9',
+          group: 'long',
+          maxFrame: 6400,
+          chunk: 1000,
+          step: 20,
+          hasPca: true,
+          instruction: 'put both the alphabet soup and the cream cheese box in the basket'
+        },
+        {
+          id: 'case3',
+          label: 'Case 10',
+          group: 'long',
+          maxFrame: null,
+          chunk: 1000,
+          step: 20,
+          hasPca: true,
+          instruction: 'pick up the book and place it in the back compartment of the caddy'
         }
       ];
 
       var AGIBOT_CASES = [
         {
-          id: 'case1',
+          id: 'case4',
           label: 'Case 1',
+          group: 'short',
+          maxFrame: null,
+          chunk: 1000,
+          step: 3,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Heat the food in the microwave'
+        },
+        {
+          id: 'case5',
+          label: 'Case 2',
+          group: 'short',
+          maxFrame: null,
+          chunk: 1000,
+          step: 3,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Heat the food in the microwave'
+        },
+        {
+          id: 'case6',
+          label: 'Case 3',
+          group: 'short',
+          maxFrame: null,
+          chunk: 1000,
+          step: 3,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Restock supermarket items'
+        },
+        {
+          id: 'case7',
+          label: 'Case 4',
+          group: 'short',
+          maxFrame: null,
+          chunk: 1000,
+          step: 3,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Restock supermarket items'
+        },
+        {
+          id: 'case8',
+          label: 'Case 5',
+          group: 'short',
+          maxFrame: null,
+          chunk: 1000,
+          step: 3,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Pack washing detergent from conveyor'
+        },
+        {
+          id: 'case9',
+          label: 'Case 6',
+          group: 'short',
+          maxFrame: null,
+          chunk: 1000,
+          step: 3,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Open the machine and add water'
+        },
+        {
+          id: 'case10',
+          label: 'Case 7',
+          group: 'short',
+          maxFrame: null,
+          chunk: 1000,
+          step: 3,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'Open the machine and add water'
+        },
+        {
+          id: 'case1',
+          label: 'Case 8',
           group: 'long',
           maxFrame: null,
           endRatio: 0.9, // present first 90% only
@@ -1929,7 +2006,7 @@
         },
         {
           id: 'case2',
-          label: 'Case 2',
+          label: 'Case 9',
           group: 'long',
           maxFrame: 1499,
           chunk: 500,
@@ -1940,7 +2017,7 @@
         },
         {
           id: 'case3',
-          label: 'Case 3',
+          label: 'Case 10',
           group: 'long',
           maxFrame: null,
           endRatio: 0.6, // present first 60% only
@@ -1949,83 +2026,6 @@
           hasPca: true,
           goalFile: 'goal.png',
           instruction: 'Pick up the cup brush'
-        },
-        {
-          id: 'case4',
-          label: 'Case 4',
-          group: 'short',
-          maxFrame: null,
-          chunk: 1000,
-          step: 3,
-          hasPca: true,
-          goalFile: 'goal.png',
-          instruction: 'Heat the food in the microwave'
-        },
-        {
-          id: 'case5',
-          label: 'Case 5',
-          group: 'short',
-          maxFrame: null,
-          chunk: 1000,
-          step: 3,
-          hasPca: true,
-          goalFile: 'goal.png',
-          instruction: 'Heat the food in the microwave'
-        },
-        {
-          id: 'case6',
-          label: 'Case 6',
-          group: 'short',
-          maxFrame: null,
-          chunk: 1000,
-          step: 3,
-          hasPca: true,
-          goalFile: 'goal.png',
-          instruction: 'Restock supermarket items'
-        },
-        {
-          id: 'case7',
-          label: 'Case 7',
-          group: 'short',
-          maxFrame: null,
-          chunk: 1000,
-          step: 3,
-          hasPca: true,
-          goalFile: 'goal.png',
-          instruction: 'Restock supermarket items'
-        },
-        {
-          id: 'case8',
-          label: 'Case 8',
-          group: 'short',
-          maxFrame: null,
-          chunk: 1000,
-          step: 3,
-          hasPca: true,
-          goalFile: 'goal.png',
-          instruction: 'Pack washing detergent from conveyor'
-        },
-        {
-          id: 'case9',
-          label: 'Case 9',
-          group: 'short',
-          maxFrame: null,
-          chunk: 1000,
-          step: 3,
-          hasPca: true,
-          goalFile: 'goal.png',
-          instruction: 'Open the machine and add water'
-        },
-        {
-          id: 'case10',
-          label: 'Case 10',
-          group: 'short',
-          maxFrame: null,
-          chunk: 1000,
-          step: 3,
-          hasPca: true,
-          goalFile: 'goal.png',
-          instruction: 'Open the machine and add water'
         }
       ];
 
