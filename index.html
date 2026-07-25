@@ -2045,7 +2045,7 @@
         var BASE = opts.base;
         var CASES = opts.cases;
         var defaultGoalFile = opts.defaultGoalFile || null;
-        var autoplayOnLoad = !!opts.autoplayOnLoad;
+        var autoplayOnEnter = !!opts.autoplayOnEnter;
         var BASE_STEP = 20;
 
         var video = q(viewer, 'frame');
@@ -2502,38 +2502,57 @@
         function bootFirstCase() {
           if (booted || caseIndex < 0) return;
           booted = true;
-          loadCase(caseIndex, autoplayOnLoad);
+          // Load paused; autoplay is gated on actually entering the viewport.
+          loadCase(caseIndex, false);
+        }
+
+        function setOnScreen(visible) {
+          onScreen = visible;
+          if (visible) {
+            bootFirstCase();
+            // Autoplay when scrolled into view (e.g. AgiBot case 1).
+            if (autoplayOnEnter && caseIndex >= 0 && !cfg.empty) {
+              setPlaying(true);
+            }
+          } else if (playing) {
+            // Leaving the viewport pauses playback but keeps the scrub position.
+            setPlaying(false, true);
+          }
         }
 
         if ('IntersectionObserver' in window) {
+          // Prefetch a bit early so case media is ready before autoplay.
           new IntersectionObserver(function (entries) {
             entries.forEach(function (en) {
-              onScreen = en.isIntersecting;
-              if (onScreen) bootFirstCase();
-              // Leaving the viewport pauses playback but keeps the scrub position.
-              if (!onScreen && playing) setPlaying(false, true);
+              if (en.isIntersecting) bootFirstCase();
             });
-          }, { threshold: 0.05, rootMargin: '200px 0px' }).observe(viewer);
+          }, { threshold: 0.01, rootMargin: '240px 0px' }).observe(viewer);
+
+          // Play only once a meaningful portion is on screen.
+          new IntersectionObserver(function (entries) {
+            entries.forEach(function (en) {
+              setOnScreen(en.isIntersecting);
+            });
+          }, { threshold: 0.35, rootMargin: '0px' }).observe(viewer);
         } else {
-          onScreen = true;
-          bootFirstCase();
+          setOnScreen(true);
         }
 
         buildTabs();
         if (caseIndex < 0) setPlaying(false);
       }
 
-      // Libero first (paused), then AgiBot with autoplay so it becomes the active player.
+      // Libero paused; AgiBot case 1 autoplays when scrolled into view.
       initTrajViewer(document.getElementById('liberoViewer'), {
         base: './figures/libero%20rollouts/',
         cases: LIBERO_CASES,
-        autoplayOnLoad: false
+        autoplayOnEnter: false
       });
       initTrajViewer(document.getElementById('agibotViewer'), {
         base: './figures/agibot_rollouts/',
         cases: AGIBOT_CASES,
         defaultGoalFile: 'goal.png',
-        autoplayOnLoad: true
+        autoplayOnEnter: true
       });
     })();
 
