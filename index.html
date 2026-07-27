@@ -17,6 +17,13 @@
       }
     })();
 
+    // Always start at the top on load/refresh (disable browser scroll restoration).
+    (function () {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      window.scrollTo(0, 0);
+      window.addEventListener('load', function () { window.scrollTo(0, 0); });
+    })();
+
     window.MathJax = {
       tex: {
         inlineMath: [['\\(', '\\)']],
@@ -898,6 +905,10 @@
       line-height: 1.2;
     }
 
+    .traj-case-group.is-flat {
+      padding: 0 12px;
+    }
+
     .traj-case-group[data-group="long"] .traj-case-label {
       color: var(--label-long);
     }
@@ -1245,6 +1256,82 @@
           Long-horizon trajectories can also be generated with replanning. Note that replanning points are realigned for visualization clarity.
           Drag the timeline to explore any frame.
         </p>
+
+        <h3 class="traj-dataset-title">Results on Agilex</h3>
+        <div class="traj-viewer" id="agilexViewer" data-traj-viewer>
+          <div class="traj-casebar" data-traj="casebar" aria-label="Agilex rollout cases"></div>
+          <div class="traj-stage">
+            <p class="traj-empty" data-traj="empty">Select a case to explore</p>
+            <div class="traj-panels">
+              <div class="traj-cond">
+                <figure class="traj-panel traj-panel-s0">
+                  <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
+                  <figcaption>
+                    <span class="traj-s0-main">initial state</span>
+                    <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
+                  </figcaption>
+                </figure>
+                <figure class="traj-panel traj-panel-goal">
+                  <img data-traj="goal" alt="Goal state" draggable="false" />
+                  <figcaption>goal image</figcaption>
+                </figure>
+              </div>
+
+              <div class="traj-right">
+                <div class="traj-flow">
+                  <div class="traj-arrow traj-arrow-rollout">
+                    <span class="arr">&#8594;</span>
+                    <span data-traj="rolloutLabel">ODE<br>Rollout</span>
+                  </div>
+
+                  <div class="traj-mid">
+                    <div class="traj-task">
+                      <span class="traj-cond-kicker">Task Instruction</span>
+                      <p class="traj-lang" data-traj="lang"></p>
+                    </div>
+                    <figure class="traj-panel traj-panel-pca">
+                      <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
+                      <figcaption>latent trajectory (PCA)</figcaption>
+                    </figure>
+                  </div>
+
+                  <div class="traj-arrow traj-arrow-decode">
+                    <span class="arr">&#8594;</span>
+                    Decode
+                  </div>
+
+                  <figure class="traj-panel traj-panel-frame">
+                    <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
+                    <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+
+            <div class="traj-controls">
+              <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+
+              <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
+                   aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="149" aria-valuenow="1">
+                <div class="traj-scrub-track">
+                  <div class="traj-scrub-fill" data-traj="fill"></div>
+                  <div class="traj-scrub-knob" data-traj="knob"></div>
+                </div>
+              </div>
+
+              <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
+                <button type="button" data-speed="0.1">0.1&times;</button>
+                <button type="button" data-speed="0.5">0.5&times;</button>
+                <button type="button" data-speed="1" class="active">1&times;</button>
+                <button type="button" data-speed="2">2&times;</button>
+                <button type="button" data-speed="4">4&times;</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <h3 class="traj-dataset-title">Results on AgiBot</h3>
         <div class="traj-viewer" id="agibotViewer" data-traj-viewer>
@@ -1792,17 +1879,133 @@
       });
     })();
 
-    // Interactive rollout trajectory viewers (LIBERO + AgiBot)
+    // Interactive rollout trajectory viewers (Agilex + AgiBot + LIBERO)
     (function () {
       var CASE_GROUPS = [
         { id: 'short', title: 'Short-horizon' },
         { id: 'long', title: 'Long-horizon' }
+      ];
+      var FLAT_GROUPS = [
+        { id: 'all', title: '' }
       ];
       var MIN_FRAME = 1;
       var TICK_MS = 100;
       var VIDEO_FPS = 30;
       // Only one viewer plays at a time; scrubbing still works while paused.
       var trajPlayers = [];
+
+      var AGILEX_CASES = [
+        {
+          id: 'case1',
+          label: 'Case 1',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'move the toy'
+        },
+        {
+          id: 'case2',
+          label: 'Case 2',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'move the toy'
+        },
+        {
+          id: 'case3',
+          label: 'Case 3',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'put the pen into the container'
+        },
+        {
+          id: 'case4',
+          label: 'Case 4',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'put the pen into the container'
+        },
+        {
+          id: 'case5',
+          label: 'Case 5',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'pack the mouse'
+        },
+        {
+          id: 'case6',
+          label: 'Case 6',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'pack the mouse'
+        },
+        {
+          id: 'case7',
+          label: 'Case 7',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'pack the mouse'
+        },
+        {
+          id: 'case8',
+          label: 'Case 8',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'put the shrimp into the pot'
+        },
+        {
+          id: 'case9',
+          label: 'Case 9',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'put the shrimp into the pot'
+        },
+        {
+          id: 'case10',
+          label: 'Case 10',
+          group: 'all',
+          maxFrame: null,
+          chunk: 1000,
+          step: 1,
+          hasPca: true,
+          goalFile: 'goal.png',
+          instruction: 'put the shrimp into the pot'
+        }
+      ];
 
       var LIBERO_CASES = [
         {
@@ -2044,6 +2247,7 @@
         if (!viewer) return;
         var BASE = opts.base;
         var CASES = opts.cases;
+        var GROUPS = opts.groups || CASE_GROUPS;
         var defaultGoalFile = opts.defaultGoalFile || null;
         var autoplayOnEnter = !!opts.autoplayOnEnter;
         var BASE_STEP = 20;
@@ -2091,6 +2295,7 @@
         var onScreen = false;
         var scrubbing = false;
         var booted = false;
+        var didAutoplayEnter = false;
 
         function videoTimeForIndex(idx) {
           return (idx + 0.5) / VIDEO_FPS;
@@ -2283,19 +2488,24 @@
 
         function buildTabs() {
           casebarEl.innerHTML = '';
-          CASE_GROUPS.forEach(function (g) {
+          GROUPS.forEach(function (g) {
             var groupEl = document.createElement('div');
             groupEl.className = 'traj-case-group';
             groupEl.dataset.group = g.id;
 
-            var labelEl = document.createElement('span');
-            labelEl.className = 'traj-case-label';
-            labelEl.textContent = g.title;
-
             var tabsEl = document.createElement('div');
             tabsEl.className = 'traj-tabs';
             tabsEl.setAttribute('role', 'tablist');
-            tabsEl.setAttribute('aria-label', g.title);
+            tabsEl.setAttribute('aria-label', g.title || 'Cases');
+
+            if (g.title) {
+              var labelEl = document.createElement('span');
+              labelEl.className = 'traj-case-label';
+              labelEl.textContent = g.title;
+              groupEl.appendChild(labelEl);
+            } else {
+              groupEl.classList.add('is-flat');
+            }
 
             CASES.forEach(function (c, i) {
               if (c.group !== g.id) return;
@@ -2319,7 +2529,6 @@
               tabsEl.appendChild(btn);
             });
 
-            groupEl.appendChild(labelEl);
             groupEl.appendChild(tabsEl);
             casebarEl.appendChild(groupEl);
           });
@@ -2510,8 +2719,9 @@
           onScreen = visible;
           if (visible) {
             bootFirstCase();
-            // Autoplay when scrolled into view (e.g. AgiBot case 1).
-            if (autoplayOnEnter && caseIndex >= 0 && !cfg.empty) {
+            // First time this card enters view: switch playback to it.
+            if (autoplayOnEnter && !didAutoplayEnter && caseIndex >= 0 && !cfg.empty) {
+              didAutoplayEnter = true;
               setPlaying(true);
             }
           } else if (playing) {
@@ -2542,11 +2752,18 @@
         if (caseIndex < 0) setPlaying(false);
       }
 
-      // Libero paused; AgiBot case 1 autoplays when scrolled into view.
+      // Each viewer autoplays its first case the first time it enters view.
+      initTrajViewer(document.getElementById('agilexViewer'), {
+        base: './figures/agilex_rollouts/',
+        cases: AGILEX_CASES,
+        groups: FLAT_GROUPS,
+        defaultGoalFile: 'goal.png',
+        autoplayOnEnter: true
+      });
       initTrajViewer(document.getElementById('liberoViewer'), {
         base: './figures/libero%20rollouts/',
         cases: LIBERO_CASES,
-        autoplayOnEnter: false
+        autoplayOnEnter: true
       });
       initTrajViewer(document.getElementById('agibotViewer'), {
         base: './figures/agibot_rollouts/',
