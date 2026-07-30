@@ -326,6 +326,47 @@
       color: var(--text-dim);
     }
 
+    .hero-top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin: 22px 0 0;
+    }
+
+    .hero-top-actions .button {
+      gap: 7px;
+      min-width: 0;
+      padding: 7px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: none;
+      text-decoration: none;
+      color: #fff;
+      transition: all 0.2s ease;
+    }
+
+    .hero-top-actions .button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.06);
+    }
+
+    .hero-top-actions .button svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    .hero-top-actions .button.btn-paper {
+      background: #B31B1B;
+    }
+
+    .hero-top-actions .button.btn-code {
+      background: #24292E;
+    }
+
     /* ───── section titles with gilt rule ornament ───── */
     .hero-divider-title {
       margin: 56px 0 18px;
@@ -1213,11 +1254,11 @@
         </h2>
         <div class="authors e2">
           <p class="authors-list">
-            Dongxiu Liu<sup>1*&#8224;</sup>,
+            Dongxiu Liu<sup>1*</sup>,
             Haoyi Niu<sup>2*&#9993;</sup>,
-            Peng Cheng<sup>1&#8224;</sup>,
-            Yuan Gao<sup>1&#8224;</sup>,
-            <span class="eq">Xirui Kang</span><sup>1&#8224;</sup>,<br />
+            Peng Cheng<sup>1</sup>,
+            Yuan Gao<sup>1</sup>,<br />
+            <span class="eq">Xirui Kang</span><sup>1</sup>,
             <span class="eq">Sangli Teng</span><sup>2</sup>,
             <span class="eq">Koushil Sreenath</span><sup>2</sup>,
             <span class="eq">Xianyuan Zhan</span><sup>1&#9993;</sup>
@@ -1229,13 +1270,22 @@
           <p class="authors-note">
             * Equal contribution, order determined by coin flip.
             &nbsp;&nbsp; &#9993; Corresponding author.
-            &nbsp;&nbsp; &#8224; Work done during internship.
           </p>
         </div>
-        <!-- <div class="hero-top-actions">
-          <a class="button primary" href="#">Paper</a>
-          <a class="button" href="#">Code</a>
-        </div> -->
+        <div class="hero-top-actions e2">
+          <a class="button btn-paper" href="./" title="Paper coming soon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" aria-hidden="true">
+              <path fill="currentColor" d="M181.9 256.1c-5-16-4.9-46.9-2-46.9 8.4 0 7.6 36.9 2 46.9zm-1.7 47.2c-7.7 20.2-17.3 43.3-28.4 62.7 18.3-7 39-17.2 62.9-21.9-12.7-9.6-24.9-23.4-34.5-40.8zM86.1 428.1c0 .8 13.2-5.4 34.9-40.2-6.7 6.3-29.1 24.5-34.9 40.2zM248 160h136v328c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V24C0 10.7 10.7 0 24 0h200v136c0 13.2 10.8 24 24 24zm-8 171.8c-20-12.2-33.3-29-42.7-53.8 4.5-18.5 11.6-46.6 6.2-64.2-4.7-29.4-42.4-26.5-47.8-6.8-5 18.3-.4 44.1 8.1 77-11.6 27.6-28.7 64.6-40.8 85.8-.1 0-.1.1-.2.1-27.1 13.9-73.6 44.5-54.5 68 5.6 6.9 16 10 21.5 10 17.9 0 35.7-18 61.1-61.8 25.8-8.5 54.1-19.1 79-23.2 21.7 11.8 47.1 19.5 64 19.5 29.2 0 31.2-32 19.7-43.4-13.9-13.6-54.3-9.7-73.6-7.2zM377 105L279 7c-4.5-4.5-10.6-7-17-7h-6v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-74.1 255.3c4.1-2.7-2.5-11.9-42.8-9 37.1 15.8 42.8 9 42.8 9z"/>
+            </svg>
+            Paper
+          </a>
+          <a class="button btn-code" href="https://github.com/Dstate/ODEWorld" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
+              <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            Code
+          </a>
+        </div>
       </div>
 
       <h2 class="hero-divider-title e3">Physical-Time World Modeling</h2>
@@ -1256,82 +1306,6 @@
           Long-horizon trajectories can also be generated with replanning. Note that replanning points are realigned for visualization clarity.
           Drag the timeline to explore any frame.
         </p>
-
-        <h3 class="traj-dataset-title">Results on Agilex</h3>
-        <div class="traj-viewer" id="agilexViewer" data-traj-viewer>
-          <div class="traj-casebar" data-traj="casebar" aria-label="Agilex rollout cases"></div>
-          <div class="traj-stage">
-            <p class="traj-empty" data-traj="empty">Select a case to explore</p>
-            <div class="traj-panels">
-              <div class="traj-cond">
-                <figure class="traj-panel traj-panel-s0">
-                  <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
-                  <figcaption>
-                    <span class="traj-s0-main">initial state</span>
-                    <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
-                  </figcaption>
-                </figure>
-                <figure class="traj-panel traj-panel-goal">
-                  <img data-traj="goal" alt="Goal state" draggable="false" />
-                  <figcaption>goal image</figcaption>
-                </figure>
-              </div>
-
-              <div class="traj-right">
-                <div class="traj-flow">
-                  <div class="traj-arrow traj-arrow-rollout">
-                    <span class="arr">&#8594;</span>
-                    <span data-traj="rolloutLabel">ODE<br>Rollout</span>
-                  </div>
-
-                  <div class="traj-mid">
-                    <div class="traj-task">
-                      <span class="traj-cond-kicker">Task Instruction</span>
-                      <p class="traj-lang" data-traj="lang"></p>
-                    </div>
-                    <figure class="traj-panel traj-panel-pca">
-                      <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
-                      <figcaption>latent trajectory (PCA)</figcaption>
-                    </figure>
-                  </div>
-
-                  <div class="traj-arrow traj-arrow-decode">
-                    <span class="arr">&#8594;</span>
-                    Decode
-                  </div>
-
-                  <figure class="traj-panel traj-panel-frame">
-                    <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
-                    <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
-                  </figure>
-                </div>
-              </div>
-            </div>
-
-            <div class="traj-controls">
-              <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
-                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-              </button>
-
-              <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
-                   aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="149" aria-valuenow="1">
-                <div class="traj-scrub-track">
-                  <div class="traj-scrub-fill" data-traj="fill"></div>
-                  <div class="traj-scrub-knob" data-traj="knob"></div>
-                </div>
-              </div>
-
-              <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
-                <button type="button" data-speed="0.1">0.1&times;</button>
-                <button type="button" data-speed="0.5">0.5&times;</button>
-                <button type="button" data-speed="1" class="active">1&times;</button>
-                <button type="button" data-speed="2">2&times;</button>
-                <button type="button" data-speed="4">4&times;</button>
-              </div>
-            </div>
-          </div>
-        </div>
 
         <h3 class="traj-dataset-title">Results on AgiBot</h3>
         <div class="traj-viewer" id="agibotViewer" data-traj-viewer>
@@ -1409,7 +1383,7 @@
           </div>
         </div>
 
-        <h3 class="traj-dataset-title">Results on Libero</h3>
+<h3 class="traj-dataset-title">Results on Libero</h3>
         <div class="traj-viewer" id="liberoViewer" data-traj-viewer>
           <div class="traj-casebar" data-traj="casebar" aria-label="LIBERO rollout cases"></div>
           <div class="traj-stage">
@@ -1484,6 +1458,84 @@
             </div>
           </div>
         </div>
+
+<h3 class="traj-dataset-title">Results on Agilex</h3>
+        <div class="traj-viewer" id="agilexViewer" data-traj-viewer>
+          <div class="traj-casebar" data-traj="casebar" aria-label="Agilex rollout cases"></div>
+          <div class="traj-stage">
+            <p class="traj-empty" data-traj="empty">Select a case to explore</p>
+            <div class="traj-panels">
+              <div class="traj-cond">
+                <figure class="traj-panel traj-panel-s0">
+                  <img data-traj="s0" alt="Conditioning initial state" draggable="false" />
+                  <figcaption>
+                    <span class="traj-s0-main">initial state</span>
+                    <span class="traj-s0-sub" data-traj="s0sub">(prev. generated)</span>
+                  </figcaption>
+                </figure>
+                <figure class="traj-panel traj-panel-goal">
+                  <img data-traj="goal" alt="Goal state" draggable="false" />
+                  <figcaption>goal image</figcaption>
+                </figure>
+              </div>
+
+              <div class="traj-right">
+                <div class="traj-flow">
+                  <div class="traj-arrow traj-arrow-rollout">
+                    <span class="arr">&#8594;</span>
+                    <span data-traj="rolloutLabel">ODE<br>Rollout</span>
+                  </div>
+
+                  <div class="traj-mid">
+                    <div class="traj-task">
+                      <span class="traj-cond-kicker">Task Instruction</span>
+                      <p class="traj-lang" data-traj="lang"></p>
+                    </div>
+                    <figure class="traj-panel traj-panel-pca">
+                      <video data-traj="pca" muted playsinline preload="none" aria-label="Latent trajectory in PCA space"></video>
+                      <figcaption>latent trajectory (PCA)</figcaption>
+                    </figure>
+                  </div>
+
+                  <div class="traj-arrow traj-arrow-decode">
+                    <span class="arr">&#8594;</span>
+                    Decode
+                  </div>
+
+                  <figure class="traj-panel traj-panel-frame">
+                    <video data-traj="frame" muted playsinline preload="none" aria-label="Predicted frame"></video>
+                    <figcaption>prediction &mdash; overall progress: <b data-traj="progress">0.00%</b></figcaption>
+                  </figure>
+                </div>
+              </div>
+            </div>
+
+            <div class="traj-controls">
+              <button class="traj-btn" data-traj="play" type="button" aria-label="Play or pause">
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+              </button>
+
+              <div class="traj-scrub" data-traj="scrub" tabindex="0" role="slider"
+                   aria-label="Trajectory position" aria-valuemin="1" aria-valuemax="149" aria-valuenow="1">
+                <div class="traj-scrub-track">
+                  <div class="traj-scrub-fill" data-traj="fill"></div>
+                  <div class="traj-scrub-knob" data-traj="knob"></div>
+                </div>
+              </div>
+
+              <div class="traj-speeds" data-traj="speeds" role="group" aria-label="Playback speed">
+                <button type="button" data-speed="0.1">0.1&times;</button>
+                <button type="button" data-speed="0.5">0.5&times;</button>
+                <button type="button" data-speed="1" class="active">1&times;</button>
+                <button type="button" data-speed="2">2&times;</button>
+                <button type="button" data-speed="4">4&times;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
 
       <h2 class="hero-divider-title">Bidirectional &amp; Any-Resolution Generation</h2>
@@ -2753,10 +2805,9 @@
       }
 
       // Each viewer autoplays its first case the first time it enters view.
-      initTrajViewer(document.getElementById('agilexViewer'), {
-        base: './figures/agilex_rollouts/',
-        cases: AGILEX_CASES,
-        groups: FLAT_GROUPS,
+      initTrajViewer(document.getElementById('agibotViewer'), {
+        base: './figures/agibot_rollouts/',
+        cases: AGIBOT_CASES,
         defaultGoalFile: 'goal.png',
         autoplayOnEnter: true
       });
@@ -2765,9 +2816,10 @@
         cases: LIBERO_CASES,
         autoplayOnEnter: true
       });
-      initTrajViewer(document.getElementById('agibotViewer'), {
-        base: './figures/agibot_rollouts/',
-        cases: AGIBOT_CASES,
+      initTrajViewer(document.getElementById('agilexViewer'), {
+        base: './figures/agilex_rollouts/',
+        cases: AGILEX_CASES,
+        groups: FLAT_GROUPS,
         defaultGoalFile: 'goal.png',
         autoplayOnEnter: true
       });
